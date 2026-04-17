@@ -1,127 +1,105 @@
-# Analysis of TRPM8 Inhibitor (AMTB) Effects on Lipid Droplets in 3T3-L1 Adipocytes
+# AMTB Dose-Response Analysis: Lipid Droplet Morphology
+This project analyzes lipid droplet measurements across different concentrations of AMTB to see how the treatment affects droplet size and intensity.
 
-This project looks at how different concentrations of the TRPM8 inhibitor AMTB affect lipid droplets in 3T3-L1 adipocytes. The analysis is based on measurements from confocal images, using Area, Perimeter, Integrated Density (IntDen), and Raw Integrated Density (RawIntDen).
+## Background
+- AMTB is known to act as a blocker (antagonist) of the TRPM8 ion channel. TRPM8 is involved in calcium signaling and may play a role in cellular processes like metabolism and lipid regulation.
+- In this study, cells were treated with different concentrations of AMTB, and lipid droplets were imaged using fluorescence microscopy. The goal is to check whether AMTB treatment is associated with any changes in lipid droplet morphology.
+- Note: This analysis does not directly measure TRPM8 activity, so conclusions are limited to the effects of AMTB treatment, not the mechanism.
 
----
+## Dataset
+- **File:** `Dosage_Combined.csv`
+- **Total observations:** 4,878 lipid droplets
 
-## Results
+### Columns
 
-### Lipid Droplet Morphology (Area and Perimeter)
+| Column      | Description                                                |
+| ----------- | ---------------------------------------------------------- |
+| `Dosage`    | AMTB concentration (Control, 0.5uM, 1uM, 3uM, 5uM, 10uM)   |
+| `ImageID`   | Image identifier                                           |
+| `Sl._No.`   | Droplet number in each image                               |
+| `Area`      | Droplet area (µm²)                                         |
+| `Perimeter` | Droplet perimeter (µm)                                     |
+| `IntDen`    | Integrated fluorescence density                            |
+| `RawIntDen` | Raw intensity *(removed since it was identical to IntDen)* |
 
-At the highest concentration (10 μM), lipid droplet size is lower compared to control and lower doses. Both area and perimeter decrease, which suggests smaller droplets at this concentration.
+### Sample Sizes
 
-For intermediate doses (1–5 μM), the trend is not very clear. Some groups, especially 5 μM, show a lot of variation and even slight increases in some values. So the response does not seem strictly linear.
-
-The 0.5 μM group is quite similar to control, which suggests that this concentration may not be enough to produce a noticeable effect.
-
----
-
-### Lipid Content (Integrated Density and Raw Integrated Density)
-
-Integrated density values also change with dose. The 10 μM group has the lowest values, which suggests reduced lipid content.
-
-At the same time, some intermediate doses (like 3 μM and 5 μM) show higher values than control. This makes the pattern a bit inconsistent and possibly indicates a more complex response.
-
-Raw integrated density follows a similar trend.
-
----
-
-## Statistical Analysis
-
-The data does not satisfy the assumptions required for standard parametric tests.
-Shapiro–Wilk tests show that the data is not normally distributed, and Levene’s test shows unequal variances.
-
-Because of this, non-parametric tests were used.
-
-The Kruskal–Wallis test shows significant differences across all groups (p << 0.001), so AMTB concentration does affect lipid droplet features.
-
-Dunn’s post hoc test shows that most of the significant differences involve the higher doses, especially 5 μM and 10 μM.
-
-ANOVA and Tukey HSD were also run for comparison. Even though the assumptions are not fully met, the overall trends are similar.
+| Dosage  | n    |
+| ------- | ---- |
+| Control | 859  |
+| 0.5 µM  | 734  |
+| 1 µM    | 779  |
+| 3 µM    | 764  |
+| 5 µM    | 1098 |
+| 10 µM   | 644  |
 
 ---
 
-## Summary Statistics
+## Methods
 
-### Area
+### 1. Data Preparation
+- Cleaned column names
+- RawIntDen was removed since it was perfectly correlated with IntDen (r = 1.0)
+- Set dosage as an ordered category
+- Checked for missing values and duplicates
 
-| Group   | Mean ± SD   | N    |
-| ------- | ----------- | ---- |
-| Control | 2.06 ± 1.90 | 859  |
-| 0.5 μM  | 2.03 ± 2.14 | 734  |
-| 1 μM    | 1.70 ± 1.53 | 779  |
-| 3 μM    | 2.00 ± 2.05 | 764  |
-| 5 μM    | 1.81 ± 2.37 | 1098 |
-| 10 μM   | 1.45 ± 1.69 | 644  |
+### 2. Exploratory Analysis
+Basic summary statistics (mean, standard deviation, count) were calculated for each parameter across all dosage groups to understand the data distribution.
 
-Area generally decreases with increasing concentration, with the lowest value at 10 μM. The 5 μM group shows the highest variability.
-
----
-
-### Perimeter
-
-| Group   | Mean ± SD   | N    |
-| ------- | ----------- | ---- |
-| Control | 5.82 ± 2.50 | 859  |
-| 0.5 μM  | 5.84 ± 2.94 | 734  |
-| 1 μM    | 5.49 ± 2.53 | 779  |
-| 3 μM    | 5.90 ± 2.94 | 764  |
-| 5 μM    | 5.41 ± 3.06 | 1098 |
-| 10 μM   | 5.03 ± 2.72 | 644  |
-
-Perimeter follows a similar pattern. The 3 μM group is slightly higher than expected, which might be due to changes in droplet shape rather than size alone.
+### 3. Statistical Tests
+- Since the data did not follow a normal distribution (Shapiro-Wilk test, p < 0.05) and variances were unequal (Levene’s test, p < 0.05), non-parametric tests were used.
+- All tests were performed independently for each parameter (Area, Perimeter, IntDen).
+- **Kruskal-Wallis test** was used to check if there are overall differences between groups
+- **Dunn’s post-hoc test (Bonferroni corrected)** was used for pairwise comparisons
 
 ---
 
-### Integrated Density
-
-| Group   | Mean ± SD         | N    |
-| ------- | ----------------- | ---- |
-| Control | 3512.91 ± 4563.74 | 859  |
-| 0.5 μM  | 4146.58 ± 5667.80 | 734  |
-| 1 μM    | 3072.39 ± 3604.19 | 779  |
-| 3 μM    | 4185.30 ± 5142.39 | 764  |
-| 5 μM    | 3828.33 ± 6317.55 | 1098 |
-| 10 μM   | 2822.78 ± 4198.31 | 644  |
-
-The highest mean value appears at 3 μM, while 10 μM is the lowest. There is quite a bit of variability across all groups.
+### Key Observations
+- The **strongest and most consistent effect** is seen at **10 µM**, which differs significantly from almost all other groups.
+- **5 µM** shows moderate effects, especially for Area and Perimeter.
+- **Lower doses (0.5–3 µM)** show inconsistent or weak differences.
+- The response is **not strictly linear**, with some fluctuation at intermediate doses
+- Overall, higher AMTB concentrations are associated with a **reduction in lipid droplet size and intensity**, but the trend is not perfectly monotonic.
 
 ---
 
-### Raw Integrated Density
+## Visualisations
 
-| Group   | Mean ± SD       | N    |
-| ------- | --------------- | ---- |
-| Control | 327427 ± 425372 | 859  |
-| 0.5 μM  | 386489 ± 528277 | 734  |
-| 1 μM    | 286368 ± 335935 | 779  |
-| 3 μM    | 390098 ± 479306 | 764  |
-| 5 μM    | 356826 ± 588838 | 1098 |
-| 10 μM   | 263102 ± 391311 | 644  |
+#### Boxplots (spread + individual points)
+![Boxplots](boxplots_by_dose.png)
 
-This follows the same general trend as integrated density, with higher values at intermediate doses and lower values at 10 μM.
+#### Violin plots (distribution shape)
+![Violins](violins_by_dose.png)
 
----
+#### Mean ± SEM trend
+![Mean SEM](mean_sem_trend.png)
 
-## Interpretation
-
-Overall, AMTB appears to affect both lipid droplet size and lipid content.
-
-The clearest effect is at 10 μM, where both size and intensity decrease, suggesting reduced lipid accumulation.
-
-The intermediate doses do not follow a simple pattern and show mixed results, which could mean the response is not linear.
+#### Dunn’s post-hoc heatmaps
+![Dunn](dunn_heatmaps.png)
 
 ---
-
-## Conclusion
-
-Higher concentrations of AMTB (especially 10 μM) reduce lipid droplet size and lipid content in adipocytes. Lower concentrations show weaker or less consistent effects.
-
-These results suggest that TRPM8 may be involved in lipid storage, but more work would be needed to understand the mechanism.
+## How to Use?
+- Install dependencies using: ``` pip install -r requirements.txt ```
+- Place `Dosage_Combined.csv` in the same folder, then run: ``` python amtb_analysis.py ```
+- Make sure you are in the correct Python environment before installing dependencies.
 
 ---
+## Discussion
+- Higher doses (especially **10 µM**) show clear reductions in Area, Perimeter, and IntDen
+- Lower doses (0.5–3 µM) do not show consistent effects
+- The trend is not perfectly linear, with some variation at intermediate doses
+- Overall, AMTB treatment appears to affect lipid droplet morphology, especially at higher concentrations.
+
 
 ## Notes
+* Non-parametric tests were used due to non-normal data
+* RawIntDen was removed since it was redundant
+* Large sample size means small differences can appear statistically significant
 
-* The data shows high variability across all groups, which is common in biological experiments
-* This could be due to biological differences between cells or limitations in image processing
+## Limitations
+* Data is at droplet level, not per cell
+* Unequal sample sizes across groups
+* No direct measurement of TRPM8 activity
+
+## Conclusion
+AMTB treatment is associated with changes in lipid droplet size and intensity, with the strongest effects seen at higher concentrations (10 µM). Further experiments would be needed to confirm the underlying mechanism.
