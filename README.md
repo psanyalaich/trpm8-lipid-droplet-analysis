@@ -69,13 +69,13 @@ Basic summary statistics (mean, standard deviation, count) were calculated for e
 ![Boxplots](boxplots_by_dose.png)
 
 #### Violin plots (distribution shape)
-![Violins](violins_by_dose.png)
+![Violins](distributions_with_image_medians.png)
 
 #### Mean ± SEM trend
-![Mean SEM](mean_sem_trend.png)
+![Mean SEM](image_level_trend.png)
 
 #### Dunn’s post-hoc heatmaps
-![Dunn](dunn_heatmaps.png)
+![Dunn](dunn_image_level.png)
 
 ---
 ## How to Use?
